@@ -2,7 +2,7 @@ package gtwifi
 
 import (
 	"net/http"
-	"fmt"
+	"log"
 	"errors"
 	"code.google.com/p/go.net/html"
 )
@@ -27,7 +27,7 @@ const (
 func Status() (int, string, error) {
 	resp, err := http.Get(STATUS_URL)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return UKNOWN, "", errors.New("Could not access OIT status page")
 	}
@@ -38,21 +38,21 @@ func Status() (int, string, error) {
 
 	statusNode, err := FindStatusBlock(doc)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return UKNOWN, "", err
 	}
 
 	status, err := ExtractStatus(statusNode)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return UKNOWN, "", err
 	}
 
 	reason, err := ExtractReason(statusNode)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 
 		return status, "", err
 	}
