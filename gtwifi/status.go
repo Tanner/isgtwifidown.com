@@ -24,12 +24,12 @@ const (
 	RED_STATUS_CLASS = "bg_red"
 )
 
-func Status() (int, error) {
+func Status() (int, string, error) {
 	resp, err := http.Get(STATUS_URL)
 	if err != nil {
 		fmt.Println(err)
 
-		return UKNOWN, errors.New("Could not access OIT status page")
+		return UKNOWN, "", errors.New("Could not access OIT status page")
 	}
 
 	defer resp.Body.Close()
@@ -40,10 +40,24 @@ func Status() (int, error) {
 	if err != nil {
 		fmt.Println(err)
 
-		return UKNOWN, err
+		return UKNOWN, "", err
 	}
 
-	return ExtractStatus(statusNode)
+	status, err := ExtractStatus(statusNode)
+	if err != nil {
+		fmt.Println(err)
+
+		return UKNOWN, "", err
+	}
+
+	reason, err := ExtractReason(statusNode)
+	if err != nil {
+		fmt.Println(err)
+
+		return status, "", err
+	}
+
+	return status, reason, nil
 }
 
 func FindStatusBlock(node *html.Node) (*html.Node, error) {
@@ -88,4 +102,19 @@ func ExtractStatus(node *html.Node) (int, error) {
 	}
 
 	return UKNOWN, errors.New("Status not found")
+}
+
+func ExtractReason(node *html.Node) (string, error) {
+	if node.Type == html.ElementNode && node.Data == "p" {
+		return node.FirstChild.Data, nil
+	}
+
+	for child := node.FirstChild; child != nil; child = child.NextSibling {
+		reason, err := ExtractReason(child)
+		if err == nil {
+			return reason, err
+		}
+	}
+
+	return "", errors.New("Reason not found")
 }
