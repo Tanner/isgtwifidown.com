@@ -24,12 +24,17 @@ const (
 	RED_STATUS_CLASS = "bg_red"
 )
 
-func Status() (int, string, error) {
+type Status struct {
+	Status int
+	Reason string
+}
+
+func GetStatus() (Status, error) {
 	resp, err := http.Get(STATUS_URL)
 	if err != nil {
 		log.Println(err)
 
-		return UKNOWN, "", errors.New("Could not access OIT status page")
+		return Status{}, errors.New("Could not access OIT status page")
 	}
 
 	defer resp.Body.Close()
@@ -40,24 +45,24 @@ func Status() (int, string, error) {
 	if err != nil {
 		log.Println(err)
 
-		return UKNOWN, "", err
+		return Status{}, err
 	}
 
 	status, err := ExtractStatus(statusNode)
 	if err != nil {
 		log.Println(err)
 
-		return UKNOWN, "", err
+		return Status{}, err
 	}
 
 	reason, err := ExtractReason(statusNode)
 	if err != nil {
 		log.Println(err)
 
-		return status, "", err
+		return Status{}, err
 	}
 
-	return status, reason, nil
+	return Status{status, reason}, nil
 }
 
 func FindStatusBlock(node *html.Node) (*html.Node, error) {
