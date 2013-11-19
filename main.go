@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/codegangsta/martini"
+	"github.com/dustin/go-humanize"
 	"github.com/tanner/isgtwifidown.com/gtwifi"
 	"html/template"
 	"log"
@@ -10,10 +11,11 @@ import (
 )
 
 type PageData struct {
-	Green  bool
-	Yellow bool
-	Red    bool
-	Reason string
+	Green       bool
+	Yellow      bool
+	Red         bool
+	Reason      string
+	LastUpdated string
 }
 
 type LastData struct {
@@ -38,6 +40,7 @@ func main() {
 		data.Yellow = lastData.Status == gtwifi.YELLOW
 		data.Red = lastData.Status == gtwifi.RED
 		data.Reason = lastData.Reason
+		data.LastUpdated = humanize.Time(lastData.TimeRetrieved)
 
 		template.Execute(res, data)
 	})
