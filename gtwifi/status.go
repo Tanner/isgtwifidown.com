@@ -1,10 +1,10 @@
 package gtwifi
 
 import (
-	"net/http"
-	"log"
-	"errors"
 	"code.google.com/p/go.net/html"
+	"errors"
+	"log"
+	"net/http"
 )
 
 const (
@@ -19,9 +19,9 @@ const STATUS_URL = "http://status.oit.gatech.edu/index.php?action=service&servic
 const STATUS_BLOCK_CLASS = "vip_status"
 
 const (
-	GREEN_STATUS_CLASS = "bg_green"
+	GREEN_STATUS_CLASS  = "bg_green"
 	YELLOW_STATUS_CLASS = "bg_yellow"
-	RED_STATUS_CLASS = "bg_red"
+	RED_STATUS_CLASS    = "bg_red"
 )
 
 type Status struct {

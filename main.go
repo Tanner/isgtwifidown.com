@@ -1,35 +1,35 @@
 package main
 
 import (
-	"net/http"
-	"html/template"
-	"log"
-	"time"
 	"github.com/codegangsta/martini"
 	"github.com/tanner/isgtwifidown.com/gtwifi"
+	"html/template"
+	"log"
+	"net/http"
+	"time"
 )
 
 type PageData struct {
-	Green bool
+	Green  bool
 	Yellow bool
-	Red bool
+	Red    bool
 	Reason string
 }
 
 type LastData struct {
-	Status int
-	Reason string
+	Status        int
+	Reason        string
 	TimeRetrieved time.Time
 }
 
-var lastData LastData;
+var lastData LastData
 
 func main() {
 	m := martini.Classic()
 
 	template := template.Must(template.ParseFiles("index.tmpl"))
 
-	schedule(checkData, 5 * time.Minute)
+	schedule(checkData, 5*time.Minute)
 	checkData()
 
 	m.Get("/", func(res http.ResponseWriter, req *http.Request) {
@@ -46,16 +46,16 @@ func main() {
 }
 
 func checkData() {
-	log.Println("Retrieving new data...");
+	log.Println("Retrieving new data...")
 
 	status, err := gtwifi.GetStatus()
 
 	if err != nil {
-		log.Println(err);
+		log.Println(err)
 		return
 	}
 
-	log.Println("New data retrieved!");
+	log.Println("New data retrieved!")
 
 	lastData = LastData{status.Status, status.Reason, time.Now()}
 }
@@ -67,14 +67,14 @@ func schedule(caller func(), delay time.Duration) chan bool {
 	go func() {
 		for {
 			select {
-			case <- ticker.C:
-				caller();
-			case <- stop:
+			case <-ticker.C:
+				caller()
+			case <-stop:
 				ticker.Stop()
 				return
 			}
 		}
-	}();
+	}()
 
 	return stop
 }
