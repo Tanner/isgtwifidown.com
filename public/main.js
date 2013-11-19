@@ -1,5 +1,5 @@
 window.onload = function() {
-  var paper = Raphael("svg", 238, 175);
+  var paper = Raphael("svg", 238, 175 + 2);
 
   var rings = paper.set();
 
@@ -12,4 +12,5 @@ window.onload = function() {
   rings.push(paper.path("M237.153413,45.906456 C206.02054,17.3963789 164.541842,0 119,0 C73.4581579,0 31.9794602,17.3963787 0.846587402,45.9064554 L17.7256458,64.3483908 C44.4109654,39.9111819 79.9641351,25 119,25 C158.035865,25 193.589035,39.9111819 220.274354,64.3483908 L237.153413,45.906456 Z"));
 
   rings.attr({fill: "black"});
+  rings.translate(0, 2);
 }
