@@ -31,7 +31,7 @@ func main() {
 
 	template := template.Must(template.ParseFiles("index.tmpl"))
 
-	schedule(checkData, 5*time.Minute)
+	schedule(checkData, 10*time.Minute)
 	checkData()
 
 	m.Get("/", func(res http.ResponseWriter, req *http.Request) {
