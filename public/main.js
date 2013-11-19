@@ -2,6 +2,8 @@ window.onload = function() {
   var paperDom = document.getElementById("svg");
   var paper = Raphael("svg", 238, 175 + 2);
 
+  var animationDelay = 400;
+
   var rings = paper.set();
 
   rings.push(paper.path("M135.879059,156.558065 C131.431506,152.485197 125.505977,150 119,150 C112.494023,150 106.568494,152.485197 102.120941,156.558065 L119,175 L135.879059,156.558065 Z"));
@@ -12,17 +14,24 @@ window.onload = function() {
 
   rings.push(paper.path("M237.153413,45.906456 C206.02054,17.3963789 164.541842,0 119,0 C73.4581579,0 31.9794602,17.3963787 0.846587402,45.9064554 L17.7256458,64.3483908 C44.4109654,39.9111819 79.9641351,25 119,25 C158.035865,25 193.589035,39.9111819 220.274354,64.3483908 L237.153413,45.906456 Z"));
 
-  turnOn(rings);
-
   rings.translate(0, 2);
 
+  fade = function(id) {
+    return function() {
+    }
+  }
+
   if (paperDom.classList.contains("green")) {
-    // Don't do anything
+    turnOn(rings);
   } else if (paperDom.classList.contains("yellow")) {
     turnOff(rings[3]);
     turnOff(rings[2]);
+    turnOn(rings[1]);
+    turnOn(rings[0]);
   } else if (paperDom.classList.contains("red")) {
     turnOff(rings);
+
+    window.setTimeout(animateRings, animationDelay, true, 0);
   }
 
   function turnOn(element) {
@@ -31,5 +40,40 @@ window.onload = function() {
 
   function turnOff(element) {
     element.attr({fill: "#d5d5d5", stroke: 0});
+  }
+
+  function animateRings(up, i) {
+    if (i > 0 && i <= rings.length) {
+      if (up) {
+        turnOff(rings[i - 1]);
+      } else {
+        turnOff(rings[i + 1]);
+      }
+    } else if (i == 0) {
+      if (up) {
+        turnOff(rings[rings.length - 1]);
+      } else {
+        turnOff(rings[1]);
+      }
+    }
+
+    turnOn(rings[i]);
+
+    var nextI;
+    var nextUp = up;
+
+    if (i == rings.length - 1) {
+      nextUp = false;
+    } else if (i == 0) {
+      nextUp = true;
+    }
+
+    if (nextUp) {
+      nextI = (i + 1) % rings.length;
+    } else {
+      nextI = i - 1;
+    }
+
+    window.setTimeout(animateRings, animationDelay, nextUp, nextI);
   }
 }
