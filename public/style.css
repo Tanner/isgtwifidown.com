@@ -1,0 +1,27 @@
+#main {
+  position: absolute;
+  height: auto;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);    
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+#main .jumbotron {
+  margin: 0 auto;
+  /*padding: 15px;*/
+  max-width: 600px;
+  text-align: center;
+}
+
+#main .jumbotron h1 {
+  margin-bottom: 20px;
+}
+
+#main .jumbotron p {
+  text-align: justify;
+  font-size: 0.8em;
+}

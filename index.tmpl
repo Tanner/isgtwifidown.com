@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Is GTWifi down?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="raphael-min.js"></script>
+  <script src="main.js"></script>
+</head>
+<body>
+
+<div class="container" id="main">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron">
+        <div id="svg"></div>
+
+        {{if .Green}}
+          <h1>Things are good!</h1>
+        {{else}}
+          {{if .Yellow}}
+            <h1>Things are wonky...</h1>
+          {{else}}
+            <h1>Yep. It's down.</h1>
+          {{end}}
+        {{end}}
+
+        <p>{{.Reason}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
