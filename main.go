@@ -18,6 +18,8 @@ type PageData struct {
 func main() {
 	m := martini.Classic()
 
+	template := template.Must(template.ParseFiles("index.tmpl"))
+
 	m.Get("/", func(res http.ResponseWriter, req *http.Request) {
 		status, err := gtwifi.GetStatus()
 		if err != nil {
@@ -29,8 +31,6 @@ func main() {
 		data.Yellow = status.Status == gtwifi.YELLOW
 		data.Red = status.Status == gtwifi.RED
 		data.Reason = status.Reason
-
-		template := template.Must(template.ParseFiles("index.tmpl"))
 
 		template.Execute(res, data)
 	})
