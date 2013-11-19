@@ -17,7 +17,7 @@ window.onload = function() {
   rings.translate(0, 2);
 
   if (paperDom.classList.contains("green")) {
-    console.log("Green");
+    // Don't do anything
   } else if (paperDom.classList.contains("yellow")) {
     turnOff(rings[3]);
     turnOff(rings[2]);
