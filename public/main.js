@@ -30,6 +30,6 @@ window.onload = function() {
   }
 
   function turnOff(element) {
-    element.attr({fill: "#d5d5d5", stroke: 1});
+    element.attr({fill: "#d5d5d5", stroke: 0});
   }
 }
