@@ -16,11 +16,6 @@ window.onload = function() {
 
   rings.translate(0, 2);
 
-  fade = function(id) {
-    return function() {
-    }
-  }
-
   if (paperDom.classList.contains("green")) {
     turnOn(rings);
   } else if (paperDom.classList.contains("yellow")) {
